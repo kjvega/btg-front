@@ -31,47 +31,61 @@ La configuración del endpoint se encuentra en los servicios de Angular (ej. `fu
 
 📌 Frontend (Angular) - Guía de Despliegue
 Requisitos
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Infraestructura para el despliegue del Front-End Angular de BTG Fondos
 
-Angular CLI instalado en tu máquina local.
+Resources:
+  FrontendS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: btg-fondos-front
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      AccessControl: PublicRead
 
-Bucket en AWS S3 habilitado para sitio web estático.
+  FrontendBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FrontendS3Bucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Sub "${FrontendS3Bucket.Arn}/*"
 
-Pasos
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        DefaultRootObject: index.html
+        Origins:
+          - Id: FrontOrigin
+            DomainName: !GetAtt FrontendS3Bucket.RegionalDomainName
+            S3OriginConfig: {}
+        DefaultCacheBehavior:
+          TargetOriginId: FrontOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: ["GET", "HEAD"]
+          CachedMethods: ["GET", "HEAD"]
+          ForwardedValues:
+            QueryString: false
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+        PriceClass: PriceClass_100
 
-Construir el proyecto Angular
+Outputs:
+  WebsiteURL:
+    Description: URL del sitio estático en S3
+    Value: !GetAtt FrontendS3Bucket.WebsiteURL
 
-ng build --configuration production
+  CloudFrontURL:
+    Description: URL distribuida de CloudFront
+    Value: !Sub "https://${CloudFrontDistribution.DomainName}"
 
-
-Esto genera la carpeta:
-
-dist/btg-fondos-front/browser
-
-
-Subir los archivos a S3
-
-Entra a la consola de AWS S3 y crea un bucket (ej: btg-fondos-front).
-
-Habilita alojamiento de sitios web estáticos.
-
-Documento de índice: index.html
-
-Documento de error: index.html
-
-Configura permisos públicos en el bucket con la política:
-
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "PublicReadGetObject",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::btg-fondos-front/*"
-    }
-  ]
-}
 
 
 Sube todo el contenido de la carpeta dist/btg-fondos-front/browser/
