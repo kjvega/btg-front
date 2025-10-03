@@ -26,3 +26,58 @@ La configuración del endpoint se encuentra en los servicios de Angular (ej. `fu
 1. Clonar el repositorio
    ```bash
    git clone https://github.com/tu-usuario/btg-fondos-front.git
+
+
+
+📌 Frontend (Angular) - Guía de Despliegue
+Requisitos
+
+Angular CLI instalado en tu máquina local.
+
+Bucket en AWS S3 habilitado para sitio web estático.
+
+Pasos
+
+Construir el proyecto Angular
+
+ng build --configuration production
+
+
+Esto genera la carpeta:
+
+dist/btg-fondos-front/browser
+
+
+Subir los archivos a S3
+
+Entra a la consola de AWS S3 y crea un bucket (ej: btg-fondos-front).
+
+Habilita alojamiento de sitios web estáticos.
+
+Documento de índice: index.html
+
+Documento de error: index.html
+
+Configura permisos públicos en el bucket con la política:
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::btg-fondos-front/*"
+    }
+  ]
+}
+
+
+Sube todo el contenido de la carpeta dist/btg-fondos-front/browser/
+(incluye index.html, main.js, styles.css, polyfills.js y la carpeta assets/).
+
+Probar el frontend
+AWS te dará una URL como:
+
+http://btg-fondos-front.s3-website-us-east-2.amazonaws.com
