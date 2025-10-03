@@ -1,0 +1,6 @@
+@if (alert) {
+  <div [ngClass]="['toast-container toast-top-right', 'alert-' + alert.type, fadeOut ? 'fade-out' : '']">
+    <h2 class="title">{{ alert.type }}</h2>
+    <span>{{ alert.message }}</span>
+  </div>
+}
