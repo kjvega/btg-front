@@ -47,7 +47,13 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/envairoments/envairoment.ts",
+                  "with": "src/envairoments/envairoment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
