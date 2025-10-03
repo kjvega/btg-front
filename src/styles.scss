@@ -1,12 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+// ✅ TODOS LOS @use ARRIBA
+@use '@angular/material' as mat;
 @use "./styles/center-styles";
-@import"https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap";
-@import"https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap";
 
+// Aquí ya empiezan las reglas normales
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+}
+
+/* Resto de tus estilos */
 .mat-badge-content {
   font-weight: 600;
   font-size: 12px;
-  font-family: Roboto, Helvetica Neue, sans-serif
+  font-family: Roboto, Helvetica Neue, sans-serif;
 }
 
 * {
@@ -53,5 +73,3 @@ button {
   font: inherit;
   cursor: pointer;
 }
-
-

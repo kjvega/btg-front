@@ -1,0 +1,56 @@
+
+<div class="container">
+  <form class="container-main-form" [formGroup]="addFundForm" (ngSubmit)="saveFund()">
+    <div class="form-container">
+
+      <div class="form-group">
+        <label class="form-label">Seleccione el fondo</label>
+        <select class="form-input" formControlName="fundId">
+          <option value="" disabled selected>Seleccione un fondo</option>
+          <option value="1">FPV_BTG_PACTUAL_RECAUDADORA - COP $75.000</option>
+          <option value="2">FPV_BTG_PACTUAL_ECOPETROL - COP $125.000</option>
+          <option value="3">DEUDAPRIVADA - COP $50.000</option>
+          <option value="4">FDO-ACCIONES - COP $250.000</option>
+          <option value="5">FPV_BTG_PACTUAL_DINAMICA - COP $100.000</option>
+        </select>
+
+        @if (addFundForm.hasError('required', 'fundId') && addFundForm.get('fundId')?.touched) {
+          <small class="form-error">El Fondo es obligatorio.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Monto</label>
+        <input class="form-input" type="number" placeholder="Digite el monto" formControlName="amount">
+        @if (addFundForm.hasError('required', 'amount') && addFundForm.get('amount')?.touched) {
+          <small class="form-error">El monto es obligatorio.</small>
+        }
+        @if (addFundForm.hasError('minimumAmount','amount') && addFundForm.get('amount')?.touched) {
+          <small class="form-error">
+            El monto mínimo es {{ addFundForm.getError('minimumAmount','amount')?.required }}
+          </small>
+        }
+
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Seleccione tipo de notificación</label>
+        <select class="form-input" formControlName="notificationType">
+          <option value="" disabled selected>Seleccione su Rol</option>
+          <option value="EMAIL">Email</option>
+          <option value="SMS">SMS</option>
+        </select>
+        @if (addFundForm.hasError('required', 'notificationType') && addFundForm.get('notificationType')?.touched) {
+          <small class="form-error">El tipo de notificación es obligatorio.</small>
+        }
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg mt-4" type="submit">
+      Guardar
+    </button>
+    <button class="btn btn-primary btn-lg mt-2" type="button" (click)="closeModal()">
+      Cancelar
+    </button>
+  </form>
+</div>

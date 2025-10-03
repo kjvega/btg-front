@@ -1,0 +1,36 @@
+<div class="main-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="container-buttons-header">
+      <button (click)="viewFound()">
+        Ver fondos
+      </button>
+    </div>
+  </header>
+
+  <div class="container-body">
+    <!-- Si no hay clientes -->
+    @if (!clients || clients.length === 0) {
+      <div class="container-clear-data-text">
+        <p class="clear-data-text">No hay clientes disponibles.</p>
+      </div>
+    }
+
+    @for (client of clients; track client.id) {
+      <div class="container-card">
+        <h3 class="card-title">{{ client.name }}</h3>
+        <p class="card-description">
+          Balance: {{ client.balance | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </p>
+
+        <div>
+          <p class="card-date">
+            Fondos suscritos: {{ client.subscribedFunds.length || 0 }}
+          </p>
+          <button class="btn btn-primary btn-lg mt-3" (click)="addFund(client.id)">aperturas</button>
+          <button class="btn btn-primary btn-lg mt-2">cancelaciones</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
