@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Fund, Transaction} from '../../models/fund/fund';
-import {mainUrl} from '../../envairoments/envairoment';
+import {environment} from '../../envairoments/envairoment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FundService {
 
-  private apiUrl = mainUrl+'funds';
+  private apiUrl = environment.apiUrl+'funds';
 
   constructor(private http: HttpClient) {}
 

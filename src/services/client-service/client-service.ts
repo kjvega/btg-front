@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {mainUrl} from '../../envairoments/envairoment';
+import {environment} from '../../envairoments/envairoment';
 import {ClientModel} from '../../models/client/client';
 
 
@@ -9,7 +9,7 @@ import {ClientModel} from '../../models/client/client';
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = mainUrl+'clients';
+  private apiUrl = environment.apiUrl+'clients';
 
   constructor(private http: HttpClient) {}
 
