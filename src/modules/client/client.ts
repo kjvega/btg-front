@@ -1,17 +1,21 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ClientService} from '../../services/client-service/client-service';
-import {ClientModel} from '../../models/client/client';
+import {ClientModel, SubscribedFundModel} from '../../models/client/client';
 import {AddFund} from '../add-fund/add-fund';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {TableInfoFunds} from '../table-info-funds/table-info-funds';
 import {AlertService} from '../../core/services/alert/alert-service';
+import {CancelFund} from '../cancel-fund/cancel-fund';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
   selector: 'app-client',
   imports: [
     CommonModule,
     MatDialogModule,
+    RouterLink,
+    RouterLinkActive,
   ],
   templateUrl: './client.html',
   styleUrl: './client.scss'
@@ -52,6 +56,26 @@ export class Client implements OnInit {
         this.getClients();
       }
     });
+  }
+
+  canselFund(clientId:string, subscribedFunds:SubscribedFundModel[]){
+    const dialogRef = this.dialog.open(CancelFund, {
+      width: '600px',
+      height: '500px',
+      data: {
+        clientId,
+        subscribedFunds
+      },
+      autoFocus: true,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.alertService.showAlert('success', 'Acción Satisfactoria');
+        this.getClients();
+      }
+    });
+
   }
 
   viewFound(){

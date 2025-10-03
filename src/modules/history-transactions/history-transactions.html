@@ -1,0 +1,38 @@
+<div class="main-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="container-buttons-header">
+      <button (click)="getHistory()">
+        Actualizar historial
+      </button>
+    </div>
+  </header>
+
+  <div class="container-body">
+    <!-- Si no hay transacciones -->
+    @if (!transactions || transactions.length === 0) {
+      <div class="container-clear-data-text">
+        <p class="clear-data-text">No hay transacciones disponibles.</p>
+      </div>
+    }
+
+    <!-- Si hay transacciones -->
+    @for (tx of transactions; track tx.id) {
+      <div class="container-card">
+        <h3 class="card-title">{{ tx.type }}</h3>
+        <p class="card-description">
+          Fondo: {{ tx.fund }}
+        </p>
+        <p class="card-description">
+          Monto: {{ tx.amount | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </p>
+
+        <div>
+          <p class="card-date">
+            Fecha: {{ tx.date | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

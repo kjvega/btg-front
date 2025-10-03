@@ -61,7 +61,7 @@ export class AddFund implements OnInit {
   }
 
   closeModal(){
-
+    this.dialogRef.close(false);
   }
 
 }

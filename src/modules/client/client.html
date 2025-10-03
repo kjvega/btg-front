@@ -5,6 +5,9 @@
       <button (click)="viewFound()">
         Ver fondos
       </button>
+      <button routerLink="/history" routerLinkActive="active" ariaCurrentWhenActive="page">
+        Ver Historial
+      </button>
     </div>
   </header>
 
@@ -28,7 +31,7 @@
             Fondos suscritos: {{ client.subscribedFunds.length || 0 }}
           </p>
           <button class="btn btn-primary btn-lg mt-3" (click)="addFund(client.id)">aperturas</button>
-          <button class="btn btn-primary btn-lg mt-2">cancelaciones</button>
+          <button class="btn btn-primary btn-lg mt-2" (click)="canselFund(client.id, client.subscribedFunds)">cancelaciones</button>
         </div>
       </div>
     }
